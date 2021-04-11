@@ -1,0 +1,66 @@
+<div class="card">
+  <div class="card-header">
+      <div class="float-left">
+          <i class="fa fa-list"></i> Posts
+      </div>
+      <div class="btn-group float-right" role="group">
+          <button id="btnCadastrar" type="button" class="btn btn-sm btn-success" (click)="novoPost()">
+              <i class="fa fa-plus-circle"></i> <span class="d-none d-md-inline"> Adicionar Post</span>
+          </button>
+      </div>
+  </div>
+  <div class="card-body">
+      <form [formGroup]="formFiltro">
+          <div class="input-group">
+              <input #foco id="inputPesquisar" formControlName="texto" (keyup.enter)="pesquisar();" type="text" class="form-control"
+                  placeholder="Pesquise um Post..." aria-label="Pesquisar" aria-describedby="basic-addon1">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1" style="cursor: pointer" (click)="pesquisar();">
+                      <i class="fa fa-search mr-1"></i>Pesquisar
+                  </span>
+              </div>
+          </div>
+      </form>
+      <ul class="list-group pt-2">
+          <li class="list-group" *ngIf="posts.content == null || posts.content.length == 0">
+              <div class="col-md-12 text-center text-muted">
+                  Nenhum post encontrado... Pesquise novamente ou adicione um novo.
+              </div>
+          </li>
+      </ul>
+
+      <div class="card" *ngFor="let post of posts.content; let i = index">
+        <div class="card-body">
+          <div class="float-left mr-3 text-center voto">
+            <div>
+              <button type="button" class="btn btn-light" tooltip="Adicionar voto" (click)="adicionarVoto(post.id);">
+                <i class="fa fa-chevron-up"></i>
+              </button>
+            </div>
+            <div>{{ post.voto }}</div>
+            <div>
+              <button type="button" class="btn btn-light" tooltip="Remover voto" (click)="removerVoto(post.id);">
+                <i class="fa fa-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+          <div>
+            {{ post.texto }}
+          </div>
+        </div>
+      </div>
+
+      <pagination *ngIf="(posts && posts.totalElements && posts.totalElements > 7)"
+          class="pagination justify-content-center mt-2" [boundaryLinks]="true" [totalItems]="posts.totalElements"
+          [maxSize]="5" [itemsPerPage]="7" (pageChanged)="paginar($event);" previousText="&lsaquo;"
+          nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+      </pagination>
+      <div class="float-right" id="totalRegistro">
+          Total de registros: {{(posts.totalElements > 0) ? posts.totalElements : 0}}
+      </div>
+  </div>
+</div>
+
+<app-overlay [(show)]="showSidebar">
+  <app-post-form (onSalvar)="salvarPost($event)" [abriuModal]="showSidebar"></app-post-form>
+</app-overlay>

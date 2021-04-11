@@ -1,0 +1,23 @@
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      Adicionar Post
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" appFormValidator [formGroupValidator]="form">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <textarea #focoTexto class="form-control" id="textareaTexto" formControlName="texto" rows="5" 
+            placeholder="Escreva aqui seu post..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-row float-right">
+          <button id="btnSalvar" type="submit" class="btn btn-success" (click)="salvar()">
+            <i class="fa fa-check"></i> Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
